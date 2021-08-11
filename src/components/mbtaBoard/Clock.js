@@ -35,11 +35,11 @@ export default function Clock(props) {
   const dayOfWeek = days[value.getDay()];
   const date = value.toLocaleDateString().replace(/\//g, '-');
 
-  if (!isTime) {
+  if (isTime) {
     return (
       <Box>
-        <p className={classes.clockText}>CURRENT TIME</p>
-        <p className={classes.clockText}>
+        <p className={classes.clockText} data-test-id="currentTimeHeader">CURRENT TIME</p>
+        <p className={classes.clockText} data-test-id="time">
           {time}
         </p>
       </Box>
@@ -47,8 +47,8 @@ export default function Clock(props) {
   }
   return (
     <Box>
-      <p className={classes.clockText}>{dayOfWeek}</p>
-      <p className={classes.clockText}>
+      <p className={classes.clockText} data-test-id="dateOfWeek">{dayOfWeek}</p>
+      <p className={classes.clockText} data-test-id="currentDate">
         {date}
       </p>
     </Box>
