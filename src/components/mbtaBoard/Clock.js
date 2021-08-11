@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import {
-  makeStyles,
+  makeStyles, Box,
 } from '@material-ui/core';
+import * as PropTypes from 'prop-types';
 
 const useStyles = makeStyles({
   clockText: {
     color: 'gold',
+    margin: 0,
   },
 });
 
-export default function Clock() {
+export default function Clock(props) {
   const [value, setValue] = useState(new Date());
+  const { isTime } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -28,13 +31,30 @@ export default function Clock() {
   if (time[0] === '0') {
     time = time.replace('0', '');
   }
+  const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const dayOfWeek = days[value.getDay()];
+  const date = value.toLocaleDateString().replace(/\//g, '-');
 
+  if (!isTime) {
+    return (
+      <Box>
+        <p className={classes.clockText}>CURRENT TIME</p>
+        <p className={classes.clockText}>
+          {time}
+        </p>
+      </Box>
+    );
+  }
   return (
-    <div>
-      <p>Current time:</p>
+    <Box>
+      <p className={classes.clockText}>{dayOfWeek}</p>
       <p className={classes.clockText}>
-        {time}
+        {date}
       </p>
-    </div>
+    </Box>
   );
 }
+
+Clock.propTypes = {
+  isTime: PropTypes.bool.isRequired,
+};

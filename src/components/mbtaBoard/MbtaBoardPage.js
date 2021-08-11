@@ -9,6 +9,7 @@ const useStyles = makeStyles({
     backgroundColor: 'black',
     marginLeft: '20px',
     marginRight: '20px',
+    marginTop: '20px',
   },
   table: {
     minWidth: 650,
@@ -18,6 +19,11 @@ const useStyles = makeStyles({
     paddingTop: '2px',
     paddingBottom: '2px',
     borderBottom: '1px solid darkgray',
+  },
+  mainHeading: {
+    color: 'gray',
+    marginTop: 0,
+    marginBottom: 0,
   },
   tableCell: {
     color: 'gold',
@@ -86,8 +92,16 @@ export default function MbtaBoardPage() {
 
   return (
     <Box className={classes.boxContainer}>
-      <Box align="right">
-        <Clock />
+      <Box display="flex" width="100%" paddingTop="15px">
+        <Box paddingLeft="15px">
+          <Clock isTime />
+        </Box>
+        <Box marginLeft="auto" textAlign="center">
+          <h1 className={classes.mainHeading}>North Station Information</h1>
+        </Box>
+        <Box paddingRight="15px" marginLeft="auto">
+          <Clock isTime={false} />
+        </Box>
       </Box>
       <TableContainer>
         <Table className={classes.table}>

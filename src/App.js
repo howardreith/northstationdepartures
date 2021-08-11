@@ -14,6 +14,7 @@ const useStyles = makeStyles({
     height: '100vh',
     width: '100%',
     margin: 0,
+    position: 'fixed',
   },
 });
 
