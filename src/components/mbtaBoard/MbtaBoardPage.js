@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
   TableContainer, Table, TableHead, TableRow, TableCell, TableBody, makeStyles, Box,
 } from '@material-ui/core';
+import Clock from './Clock';
 
 const useStyles = makeStyles({
   boxContainer: {
@@ -35,21 +36,16 @@ export default function MbtaBoardPage() {
   // Also displays date in the upper left, time in the upper right
   useEffect(() => {
     const formattedData = {};
+    const scheduleData = {};
 
     fetch('https://api-v3.mbta.com/schedules/?sort=departure_time&direction_id=0&stop=place-north&route=CR-Fitchburg,CR-Haverhill,CR-Lowell,CR-Newburyport,CR-Greenbush,CR-Middleborough,CR-Kingston,CR-Fairmount,CR-Franklin,CR-Worcester,CR-Providence,CR-Needham')
       .then((res) => res.json())
       .then((res) => {
-        // TODO fix this linter silliness
-        // eslint-disable-next-line max-len
-        const scheduledAfterNow = res.data.filter((datum) => new Date(datum.attributes.departure_time) > new Date()).slice(0, 15);
-        scheduledAfterNow.forEach((datum) => {
+        res.data.forEach((datum) => {
           const key = datum.id.replace('schedule-', '');
-          formattedData[key] = {};
-          formattedData[key].departureTime = datum.attributes.departure_time;
-          formattedData[key].destination = datum.relationships.route.data.id.replace('CR-', '');
-          formattedData[key].trackNumber = 'TBD';
-          formattedData[key].trainNumber = 'TBD';
-          formattedData[key].status = 'On time';
+          scheduleData[key] = {};
+          scheduleData[key].departureTime = datum.attributes.departure_time;
+          scheduleData[key].destination = datum.relationships.route.data.id.replace('CR-', '');
         });
       })
       .then(() => {
@@ -58,21 +54,27 @@ export default function MbtaBoardPage() {
           .then((res) => {
             res.data.forEach((datum) => {
               const key = datum.id.replace('prediction-', '');
+              formattedData[key] = {};
               const stopData = datum.relationships.stop.data.id.split('-');
+              if (datum.attributes.departure_time) {
+                formattedData[key].departureTime = datum.attributes.departure_time;
+              } else if (scheduleData[key]) {
+                formattedData[key].departureTime = scheduleData[key].departureTime;
+              } else {
+                // The train has departed and/or is not on the schedule
+                delete formattedData[key];
+              }
               if (formattedData[key]) {
-                if (datum.attributes.departure_time) {
-                  formattedData[key].departureTime = datum.attributes.departure_time;
-                }
                 formattedData[key].name = key;
+                formattedData[key].destination = datum.relationships.route.data.id.replace('CR-', '');
                 formattedData[key].status = datum.attributes.status;
                 formattedData[key].trainNumber = (datum.relationships.vehicle.data
                   && datum.relationships.vehicle.data.id) || 'TBD';
                 formattedData[key].trackNumber = stopData.length > 2 ? stopData[2] : 'TBD';
               }
             });
-            // TODO fix this linter silliness
-            // eslint-disable-next-line max-len
-            const sorted = Object.values(formattedData).sort((a, b) => (new Date(a.departureTime)) - (new Date(b.departureTime)));
+            const sorted = Object.values(formattedData).sort((a, b) => (
+              new Date(a.departureTime)) - (new Date(b.departureTime)));
             setData(sorted);
           });
       })
@@ -84,8 +86,8 @@ export default function MbtaBoardPage() {
 
   return (
     <Box className={classes.boxContainer}>
-      <Box align="left">
-        {/* <h2></h2> */}
+      <Box align="right">
+        <Clock />
       </Box>
       <TableContainer>
         <Table className={classes.table}>
