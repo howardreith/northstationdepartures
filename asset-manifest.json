@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/northstationdepartures/static/css/main.a617e044.chunk.css",
+    "main.js": "/northstationdepartures/static/js/main.88477c76.chunk.js",
+    "main.js.map": "/northstationdepartures/static/js/main.88477c76.chunk.js.map",
+    "runtime-main.js": "/northstationdepartures/static/js/runtime-main.d2635752.js",
+    "runtime-main.js.map": "/northstationdepartures/static/js/runtime-main.d2635752.js.map",
+    "static/js/2.bcaeaf50.chunk.js": "/northstationdepartures/static/js/2.bcaeaf50.chunk.js",
+    "static/js/2.bcaeaf50.chunk.js.map": "/northstationdepartures/static/js/2.bcaeaf50.chunk.js.map",
+    "index.html": "/northstationdepartures/index.html",
+    "static/css/main.a617e044.chunk.css.map": "/northstationdepartures/static/css/main.a617e044.chunk.css.map",
+    "static/js/2.bcaeaf50.chunk.js.LICENSE.txt": "/northstationdepartures/static/js/2.bcaeaf50.chunk.js.LICENSE.txt",
+    "static/media/northSationBackground.19baa4d7.jpeg": "/northstationdepartures/static/media/northSationBackground.19baa4d7.jpeg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.d2635752.js",
+    "static/js/2.bcaeaf50.chunk.js",
+    "static/css/main.a617e044.chunk.css",
+    "static/js/main.88477c76.chunk.js"
+  ]
+}
